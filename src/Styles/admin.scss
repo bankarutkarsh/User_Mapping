@@ -1,0 +1,57 @@
+@import url('https://fonts.googleapis.com/css?family=Nunito:400,800');
+
+$breakpoint: 720px;
+$medium: 768px;
+$large: 1216px;
+
+$colorDark: #274263;
+$colorMedium: #76879d;
+$colorLight: #bdc5cf;
+$colorPrimary: #f17a8e;
+$colorWhite: #fff;
+$fontFamily: Nunito, sans-serif;
+
+.tablhead{
+    background: linear-gradient(to right,#f8a3a4,#e2587c);
+    color: #fff;
+
+}
+
+.tablhead th{
+    font-weight: bold;
+    color: #fff;
+}
+
+.tablbody th{
+    font-weight: 600;
+    color: $colorDark;
+}
+
+.tablbody td{
+    font-weight: 600;
+    color: $colorDark;
+}
+
+.tablbody .locIcon{
+    padding-left: 50px;
+    opacity: 1;
+    cursor: pointer;
+
+    &:hover{
+        opacity: 0.7;
+    }
+}
+
+.details{
+    opacity: 1;
+    cursor: pointer;
+
+    &:hover{
+        opacity: 0.7;
+    }
+}
+
+.tablebottom{
+    margin-bottom: 20px;
+}
+
