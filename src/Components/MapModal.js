@@ -8,7 +8,7 @@ const MapModal = () => {
   let dispatch = useDispatch();
   const { user } = useSelector((state) => state.userApp);
   const { isLoaded } = useLoadScript({
-    googleMapsApiKey: 'AIzaSyDZjoj4fon6PnuBxBk7ZEFqyJpte5v-Tnk',
+    googleMapsApiKey: '',
   });
   const center = useMemo(() => ({ lat: 18.52043, lng: 73.856743 }), []);
 
