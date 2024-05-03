@@ -6,6 +6,8 @@
 /package-lock
 /.pnp
 .pnp.js
+/src/Components/Login
+/src/Components/Profile
 
 # testing
 /coverage
