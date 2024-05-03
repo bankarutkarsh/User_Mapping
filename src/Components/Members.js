@@ -2,9 +2,7 @@ import React, { useState } from "react";
 import MapModal from "./MapModal";
 import { useDispatch, useSelector } from "react-redux";
 import { setDetailsModal , setModal , setSelectedUser, setUser } from "../redux/user.slice";
-import { useDebounce } from "use-debounce";
 import Details from "./Details";
-import { Link } from "react-router-dom";
 import { useLoadScript } from "@react-google-maps/api";
 import { Box, CircularProgress } from "@mui/material";
 

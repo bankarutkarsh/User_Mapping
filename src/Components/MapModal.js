@@ -13,6 +13,7 @@ const MapModal = () => {
   // const center = useMemo(() => ({ lat: 18.52043, lng: 73.856743 }), []);
   const s = user.address.street.split(" ").join("+");
   const c = user.address.city.split(" ").join("+");
+  const n = user.address.building.split(" ").join("+");
   const googleMapsApiKey = process.env.REACT_APP_GOOGLE_API_KEY;
 
   // if (isLoaded) {
@@ -42,7 +43,7 @@ const MapModal = () => {
           <div className="modal-content">
             {/* <p style={{ paddingTop: "0" }} className="image is-4by3"> */}
             <iframe
-              src={`https://www.google.com/maps/embed/v1/place?key=${googleMapsApiKey}&q=${user.address.number},${s},${c}`}
+              src={`https://www.google.com/maps/embed/v1/place?key=${googleMapsApiKey}&q=${n},${s},${c}`}
               width="600"
               height="450"
               allowFullScreen

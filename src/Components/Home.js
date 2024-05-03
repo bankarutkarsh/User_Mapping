@@ -17,7 +17,7 @@ function Home() {
       dispatch(setUsers(response.data.users));
     };
     fetchUser();
-  }, []);
+  }, [users]);
 
   return (  
     <div id="app" style={members ? {} :{height:'100vh'}} className={members ? "" : 'is-block'}>
