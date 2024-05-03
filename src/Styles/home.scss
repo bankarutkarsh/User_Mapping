@@ -36,8 +36,15 @@ body {
   }
 }
 
+.loader{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .input{
   width: 30%;
+  border-color: #dbdbdb ;
 }
 
 .modal{

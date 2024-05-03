@@ -7,39 +7,43 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { useDispatch, useSelector } from "react-redux";
-import { setDetailModal, setModal, setUser } from "../redux/user.slice";
+import { setAddUserModal,setEditModal,setModal,setSelectedUser,setUser,} from "../redux/user.slice";
 import { TablePagination } from "@mui/material";
-import LocationOnIcon from '@mui/icons-material/LocationOn';
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import EditIcon from "@mui/icons-material/Edit";
 import "../Styles/admin.scss";
-import Details from "./Details";
+import Adduser from "./Adduser";
+import Edit from "./Edit";
+import MapModal from "./MapModal";
 
 function Admin() {
-    const chunckArray = (array, size) => {
-        let newArray = [];
-        for(let i=0; i<array.length; i += size){
-            newArray.push(array.slice(i,i+size))
-        };
-        return newArray;
-      }
-    
+  const chunckArray = (array, size) => {
+    let newArray = [];
+    for (let i = 0; i < array.length; i += size) {
+      newArray.push(array.slice(i, i + size));
+    }
+    return newArray;
+  };
+
   let dispatch = useDispatch();
-  let { modal, users, detailModal } = useSelector((state) => state.userApp);
-   
+  let { users, modal, editModal, addUserModal } = useSelector(
+    (state) => state.userApp
+  );
+
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(7);
   let elem = chunckArray(users, rowsPerPage);
-  const [elements,setElements] = useState(elem[0]);
+  const [elements, setElements] = useState(elem[0]);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
-    setElements(elem[newPage])
+    setElements(elem[newPage]);
   };
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value));
     setPage(0);
   };
-
 
   return (
     <div className="column">
@@ -51,7 +55,10 @@ function Admin() {
                 Team Members
               </p>
               <p className="control">
-                <button className="button has-text-weight-bold font-color-primary">
+                <button
+                  onClick={() => dispatch(setAddUserModal(true))}
+                  className="button has-text-weight-bold font-color-primary"
+                >
                   Add User
                 </button>
               </p>
@@ -67,7 +74,7 @@ function Admin() {
                     <TableCell align="right">City</TableCell>
                     <TableCell align="right">Username</TableCell>
                     <TableCell align="right">Locate on Map</TableCell>
-                    <TableCell align="right">View Details</TableCell>
+                    <TableCell align="right"> Edit Details</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody className="tablbody">
@@ -76,21 +83,45 @@ function Admin() {
                       key={user._id}
                       sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                     >
-                      <TableCell component="th" scope="row" className="is-uppercase" >
+                      <TableCell
+                        component="th"
+                        scope="row"
+                        className="is-uppercase"
+                      >
                         {user.name.firstname + " " + user.name.lastname}
                       </TableCell>
                       <TableCell align="right">{user.title}</TableCell>
                       <TableCell align="right">{user.address.city}</TableCell>
                       <TableCell align="right">{user.username}</TableCell>
-                      <TableCell className="locIcon" align="right"><LocationOnIcon /></TableCell>
-                      <TableCell align="right" className="details" onClick={() => {dispatch(setDetailModal(true)); dispatch(setUser(user))}}>Details</TableCell>
+                      <TableCell
+                        onClick={() => {
+                          dispatch(setModal(true));
+                          dispatch(setUser(user));
+                        }}
+                        className="locIcon"
+                        align="right"
+                      >
+                        <LocationOnIcon />
+                      </TableCell>
+                      <TableCell
+                        align="right"
+                        className="details"
+                        style={{ paddingLeft: "2.2vw" }}
+                        onClick={() => {
+                          dispatch(setEditModal(true));
+                          dispatch(setSelectedUser(user));
+                        }}
+                      >
+                        <EditIcon />
+                      </TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
               </Table>
             </TableContainer>
-            <TablePagination className="tablebottom"
-              rowsPerPageOptions={[7,5]}
+            <TablePagination
+              className="tablebottom"
+              rowsPerPageOptions={[7, 5]}
               component={Paper}
               count={users.length}
               page={page}
@@ -101,8 +132,9 @@ function Admin() {
           </div>
         </div>
       </div>
-      {detailModal && <Details />}
-      {/* {modal && <MapModal />} */}
+      {addUserModal && <Adduser />}
+      {editModal && <Edit />}
+      {modal && <MapModal />}
     </div>
   );
 }

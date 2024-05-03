@@ -1,15 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import MapModal from "./MapModal";
 import { useDispatch, useSelector } from "react-redux";
-import { setModal, setUser } from "../redux/user.slice";
+import { setDetailsModal , setModal , setSelectedUser, setUser } from "../redux/user.slice";
 import { useDebounce } from "use-debounce";
+import Details from "./Details";
+import { Link } from "react-router-dom";
+import { useLoadScript } from "@react-google-maps/api";
+import { Box, CircularProgress } from "@mui/material";
 
 function Members() {
   let dispatch = useDispatch();
-  let { modal, users } = useSelector((state) => state.userApp);
+  let { modal, detailsModal, users } = useSelector((state) => state.userApp);
   let [input, setInput] = useState("");
   // const [debouncedValue] = useDebounce(input,500)
-  let [search,setSearch] = useState(false);
+  let [search, setSearch] = useState(false);
 
   function chunkArray(array, chunkSize) {
     const chunkedArray = [];
@@ -27,7 +31,7 @@ function Members() {
   // },[]);
 
   let handleChange = (event) => {
-    setSearch(true)
+    setSearch(true);
     setInput(event.target.value);
 
     if (event.target.value === "") {
@@ -43,6 +47,20 @@ function Members() {
       setMatchUsers(chunkArray(search, 3));
     }
   };
+  
+  const { isLoaded } = useLoadScript({
+    googleMapsApiKey: process.env.REACT_APP_GOOGLE_API_KEY,
+  });
+
+  if (!isLoaded) {
+    return (
+      <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+        <Box>
+        <CircularProgress />
+      </Box>
+      </div>
+    );
+  }
 
   return (
     <div className="column">
@@ -53,78 +71,94 @@ function Members() {
               <p className="title is-5 is-pulled-left font-color-dark">
                 Team Members
               </p>
-              <p className="title is-6 is-pulled-right has-text-weight-bold font-color-primary button">
+              {/* <Link to={'/login'}>
+              <p 
+                className="title is-6 is-pulled-right has-text-weight-bold font-color-primary button">
                 Login
               </p>
+              </Link> */}
               <p className="control">
                 <input
                   className="input mr-1"
                   type="text"
+                  style={{ borderColor: "#dbdbdb" }}
                   placeholder="Find User"
                   value={input}
                   onChange={handleChange}
                 />
-                <button className="button has-text-weight-bold font-color-primary" onClick={handleChange}>
+                <button
+                  className="button has-text-weight-bold font-color-primary"
+                  onClick={handleChange}
+                >
                   clear
                 </button>
               </p>
             </div>
           </div>
           <div className="cardscon">
-          {(search ? matchUsers : usersInSequence).map((row, index) => (
-            <div className="row" key={index}>
-              <div className="columns changeRow">
-                {row.map((user) => (
-                  <div className="column one-third" key={user.id}>
-                    <div className="card">
-                      <div className="card-content">
-                        <div className="media">
-                          <div className="media-left">
-                            <figure className="image is-48x48">
-                              <img
-                                src={user.photo}
-                                alt={
-                                  user.name.firstname + " " + user.name.lastname
-                                }
-                              />
-                            </figure>
+            {(search ? matchUsers : usersInSequence).map((row, index) => (
+              <div className="row" key={index}>
+                <div className="columns changeRow">
+                  {row.map((user) => (
+                    <div className="column one-third" key={user.id}>
+                      <div className="card">
+                        <div className="card-content">
+                          <div className="media">
+                            <div className="media-left">
+                              <figure className="image is-48x48">
+                                <img
+                                  src={user.photo}
+                                  alt={
+                                    user.name.firstname +
+                                    " " +
+                                    user.name.lastname
+                                  }
+                                />
+                              </figure>
+                            </div>
                           </div>
-                        </div>
-                        <div className="media-content">
-                          <p className="title is-6 is-uppercase font-color-primary has-text-weight-bold">
-                            {user.name.firstname + " " + user.name.lastname}
-                          </p>
-                          <p className="subtitle is-7 font-color-light has-text-weight-bold">
-                            {user.address.city}
-                          </p>
-                          <p className="content has-text-weight-bold font-color-medium">
-                            {user.description}
-                          </p>
-                          <span
-                            className="subtitle is-7 is-uppercase font-color-primary has-text-weight-bold sum"
-                            onClick={() => {
-                              dispatch(setModal(true));
-                              dispatch(setUser(user));
-                            }}
-                          >
-                            Summary
-                          </span>
-                          <br />
-                          <span className="subtitle is-7 is-uppercase font-color-primary has-text-weight-bold detl">
-                            View Details
-                          </span>
+                          <div className="media-content">
+                            <p className="title is-6 is-uppercase font-color-primary has-text-weight-bold">
+                              {user.name.firstname + " " + user.name.lastname}
+                            </p>
+                            <p className="subtitle is-7 font-color-light has-text-weight-bold">
+                              {user.address.city}
+                            </p>
+                            <p className="content has-text-weight-bold font-color-medium">
+                              {user.description}
+                            </p>
+                            <span
+                              className="subtitle is-7 is-uppercase font-color-primary has-text-weight-bold sum"
+                              onClick={() => {
+                                dispatch(setModal(true));
+                                dispatch(setUser(user));
+                              }}
+                            >
+                              Summary
+                            </span>
+                            <br />
+                            <span
+                              onClick={() => {
+                                dispatch(setSelectedUser(user));
+                                dispatch(setDetailsModal(true));
+                              }}
+                              className="subtitle is-7 is-uppercase font-color-primary has-text-weight-bold detl"
+                            >
+                              View Details
+                            </span>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
           </div>
         </div>
       </div>
       {modal && <MapModal />}
+      {detailsModal && <Details />}
     </div>
   );
 }

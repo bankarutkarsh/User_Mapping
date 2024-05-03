@@ -11,7 +11,7 @@ function Login() {
           $('.message a').on('click', handleClick);
       
           return () => {
-            $('.message a').off('click', handleClick); // Cleanup event handler on component unmount
+            $('.message a').off('click', handleClick);  
           };
       }, []);
   return (

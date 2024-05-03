@@ -7,9 +7,18 @@ const UserSlice = createSlice({
     users: [],
     user: null,
     members: true,
-    detailModal: false
+    addUserModal: false,
+    detailsModal:false,
+    editModal: false,
+    selectedUser:[]
   },
   reducers: {
+    setDetailsModal(state, action){
+      state.detailsModal = action.payload;
+    },
+    setEditModal(state, action){
+      state.editModal = action.payload;
+    },
     setModal(state, action) {
       state.modal = action.payload;
     },
@@ -19,15 +28,18 @@ const UserSlice = createSlice({
     setUser(state, action) {
       state.user = action.payload;
     },
+    setSelectedUser(state, action) {
+      state.selectedUser = action.payload;
+    },
     setMembers(state,action){
       state.members = action.payload;
     },
-    setDetailModal(state,action){
-      state.detailModal = action.payload;
+    setAddUserModal(state,action){
+      state.addUserModal = action.payload;
     },
   },
 });
 
 export default UserSlice;
 
-export const { setModal, setUsers, setUser, setDetailModal, setMembers } = UserSlice.actions;
+export const { setModal, setUsers, setUser, setAddUserModal, setDetailsModal, setEditModal, setMembers, setSelectedUser } = UserSlice.actions;

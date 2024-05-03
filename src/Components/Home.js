@@ -36,9 +36,9 @@ function Home() {
                     <p className="title is-5 font-color-white">
                       Hassan Djirdeh
                     </p>
-                    <p className="subtitle is-7 has is-uppercase font-color-white has-text-weight-bold">
+                    {/* <p className="subtitle is-7 has is-uppercase font-color-white has-text-weight-bold">
                       edit
-                    </p>
+                    </p> */}
                   </div>
                 </div>
                 <div className="menu-list__main is-uppercase has-text-left">
