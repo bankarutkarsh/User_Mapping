@@ -53,15 +53,6 @@ function Adduser() {
     }
   };
 
-  // const { isLoaded } = useLoadScript({
-  //   googleMapsApiKey: "AIzaSyDZjoj4fon6PnuBxBk7ZEFqyJpte5v-Tnk",
-  //   libraries: ["places"],
-  // });
-
-  // if (!isLoaded) {
-  //   return <h1>Loading...</h1>
-  // }
-
   return (
     <div className="modal flex items-center justify-center">
       <div
