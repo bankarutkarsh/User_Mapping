@@ -40,12 +40,10 @@ const MapModal = () => {
             className="modal-background"
             onClick={() => dispatch(setModal(false))}
           ></div>
-          <div className="modal-content">
-            {/* <p style={{ paddingTop: "0" }} className="image is-4by3"> */}
+          <div className="modal-content map">
             <iframe
+            title="map"
               src={`https://www.google.com/maps/embed/v1/place?key=${googleMapsApiKey}&q=${n},${s},${c}`}
-              width="600"
-              height="450"
               allowFullScreen
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
@@ -60,8 +58,7 @@ const MapModal = () => {
                     name = {`${user.number}, ${user.street}, ${user.city}, ${user.zipcode}`}
             />
           </GoogleMap>
-        )}
-        </p> */}
+        )} */}
           </div>
           <button
             className="modal-close is-large"
