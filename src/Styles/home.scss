@@ -19,6 +19,7 @@ body {
   @media(min-height: $medium) {
     height: 100%; 
   }
+  background: linear-gradient(to bottom right, #f5f2fd, #bfcbda);
 }
 .button{
   cursor: pointer;
@@ -28,6 +29,17 @@ body {
   opacity: 1;
 }
 }
+
+.map{
+  width: 80%;
+  height: 80%;
+}
+
+iframe{
+  width: 100%;
+  height: 100%;
+}
+
 .sum, .detl{
   cursor: pointer;
 
@@ -66,10 +78,13 @@ body {
 }
 
 #app {
-  height: 100vh;
   font-family: $fontFamily;
   background: linear-gradient(to bottom right,#f5f2fd,#bfcbda);
   @extend .flex-center;
+}
+
+.containerBox{
+  width: 95%;
 }
 
 #app .containerBox,
@@ -170,7 +185,6 @@ body {
 }
 
 .card { 
-  max-width: 350px;
   border-radius: 0.2rem;
   box-shadow: initial;
 
@@ -237,10 +251,6 @@ body {
     .subtitle {
        padding-top: 0;
     }
-  }
-
-  .menu-list__main {
-    display: none;
   }
 
   .card {
@@ -329,7 +339,8 @@ body {
   }
   
   .menu-list__main {
-    display: none;
+    display: flex;
+    justify-content: center;
   }
   
   .card {

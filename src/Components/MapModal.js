@@ -13,6 +13,7 @@ const MapModal = () => {
   // const center = useMemo(() => ({ lat: 18.52043, lng: 73.856743 }), []);
   const s = user.address.street.split(" ").join("+");
   const c = user.address.city.split(" ").join("+");
+  const n = user.address.building.split(" ").join("+");
   const googleMapsApiKey = process.env.REACT_APP_GOOGLE_API_KEY;
 
   // if (isLoaded) {
@@ -39,12 +40,10 @@ const MapModal = () => {
             className="modal-background"
             onClick={() => dispatch(setModal(false))}
           ></div>
-          <div className="modal-content">
-            {/* <p style={{ paddingTop: "0" }} className="image is-4by3"> */}
+          <div className="modal-content map">
             <iframe
-              src={`https://www.google.com/maps/embed/v1/place?key=${googleMapsApiKey}&q=${user.address.number},${s},${c}`}
-              width="600"
-              height="450"
+            title="map"
+              src={`https://www.google.com/maps/embed/v1/place?key=${googleMapsApiKey}&q=${n},${s},${c}`}
               allowFullScreen
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
@@ -59,8 +58,7 @@ const MapModal = () => {
                     name = {`${user.number}, ${user.street}, ${user.city}, ${user.zipcode}`}
             />
           </GoogleMap>
-        )}
-        </p> */}
+        )} */}
           </div>
           <button
             className="modal-close is-large"

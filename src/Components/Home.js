@@ -13,14 +13,14 @@ function Home() {
   useEffect(() => {
     async function fetchUser() {
       let response = await axios.get(
-        "http://localhost:5500/users");
+        "https://users-data-bynry.vercel.app/users");
       dispatch(setUsers(response.data.users));
     };
     fetchUser();
-  }, []);
+  }, [dispatch]);
 
   return (  
-    <div id="app" style={members ? {} :{height:'100vh'}} className={members ? "" : 'is-block'}>
+    <div id="app">
       <div className="containerBox">
         <div className="columns is-gapless">
           <div className="column is-3">
@@ -34,7 +34,7 @@ function Home() {
                   </div>
                   <div className="media-content">
                     <p className="title is-5 font-color-white">
-                      Hassan Djirdeh
+                      Utkarsh Bankar
                     </p>
                     {/* <p className="subtitle is-7 has is-uppercase font-color-white has-text-weight-bold">
                       edit

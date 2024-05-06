@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { Modal } from 'react-bulma-components';
 
 function Profile() {
   const [showModal, setShowModal] = useState(false);
