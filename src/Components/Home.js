@@ -8,16 +8,17 @@ import Admin from "./Admin";
 
 function Home() {
   let dispatch = useDispatch();
-  let { users, members } = useSelector((state) => state.userApp);
+  let { members, flag } = useSelector((state) => state.userApp);
 
   useEffect(() => {
     async function fetchUser() {
       let response = await axios.get(
-        "https://users-data-bynry.vercel.app/users");
+        "http://localhost:5500/users");
       dispatch(setUsers(response.data.users));
     };
     fetchUser();
-  }, [dispatch]);
+    console.log('render')
+  }, [flag]);
 
   return (  
     <div id="app">

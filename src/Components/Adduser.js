@@ -1,12 +1,15 @@
-import React, { useRef } from "react";
-import { useDispatch } from "react-redux";
-import { setAddUserModal } from "../redux/user.slice";
+import React, { useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setAddUserModal, setFlag } from "../redux/user.slice";
 // import { useLoadScript, Autocomplete } from "@react-google-maps/api";
 import "tailwindcss/tailwind.css";
 import axios from "axios";
 
 function Adduser() {
   let dispatch = useDispatch();
+  const { flag } = useSelector((state) => state.userApp);
+
+  const [message, setMessage] = useState(false);
 
   const firstname = useRef(null);
   const lastname = useRef(null);
@@ -46,11 +49,18 @@ function Adduser() {
       title: title.current.value,
       description: description.current.value,
     };
+
+    if(userObj.address.city === '' || userObj.address.street === '' || userObj.address.building === '' || userObj.address.zipcode === '' || userObj.name.firstname === '' || userObj.name.lastname === '' || userObj.username === '' || userObj.email === '' || userObj.phone === '' || userObj.photo === '' || userObj.description === ''  ){
+      setMessage(true);
+    }
     try {
       await axios.post("http://localhost:5500/newUser", userObj);
+      setMessage(false);
     } catch (error) {
       console.error("Error:", error);
     }
+    dispatch(setAddUserModal(false));
+    dispatch(setFlag(!flag));
   };
 
   return (
@@ -303,8 +313,9 @@ function Adduser() {
                   />
                 </div>
               </div>
+              {message && <p style={{color: 'red'}}>Enter all req * fields</p>}
               <button
-                type="submit"
+                type="button"
                 onClick={saveUserData}
                 className="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
               >

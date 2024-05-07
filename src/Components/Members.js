@@ -1,10 +1,15 @@
 import React, { useState } from "react";
 import MapModal from "./MapModal";
 import { useDispatch, useSelector } from "react-redux";
-import { setDetailsModal , setModal , setSelectedUser, setUser } from "../redux/user.slice";
+import {
+  setDetailsModal,
+  setModal,
+  setSelectedUser,
+  setUser,
+} from "../redux/user.slice";
 import Details from "./Details";
 import { useLoadScript } from "@react-google-maps/api";
-import { Box, CircularProgress } from "@mui/material";
+import Loading from "./Loading";
 
 function Members() {
   let dispatch = useDispatch();
@@ -45,18 +50,14 @@ function Members() {
       setMatchUsers(chunkArray(search, 3));
     }
   };
-  
+
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_API_KEY,
   });
 
-  if (!isLoaded) {
+  if (!isLoaded || users.length === 0) {
     return (
-      <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-        <Box>
-        <CircularProgress />
-      </Box>
-      </div>
+      <Loading />
     );
   }
 
@@ -98,7 +99,10 @@ function Members() {
               <div className="row" key={index}>
                 <div className="columns changeRow">
                   {row.map((user) => (
-                    <div className="column one-third" key={user.id}>
+                    <div
+                      className="column one-third"
+                      key={user.id}
+                    >
                       <div className="card">
                         <div className="card-content">
                           <div className="media">

@@ -1,12 +1,14 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setEditModal } from "../redux/user.slice";
+import { setEditModal, setFlag } from "../redux/user.slice";
 import "tailwindcss/tailwind.css";
 import axios from "axios";
 
 function Edit() {
   let dispatch = useDispatch();
-  const { selectedUser } = useSelector((state) => state.userApp);
+  const { selectedUser,flag } = useSelector((state) => state.userApp);
+
+  useEffect(()=>{},[flag])
 
   const firstname = useRef(null);
   const lastname = useRef(null);
@@ -23,8 +25,8 @@ function Edit() {
   const photo = useRef(null);
   const description = useRef(null);
 
-  const saveUserData = async (e) => {
-    e.preventDefault();
+  const saveUserData = async () => {
+    
     const userObj = {
       address: {
         geolocation: {
@@ -47,17 +49,16 @@ function Edit() {
       title: title.current.value,
       description: description.current.value,
     };
-    console.log(selectedUser._id);
     try {
       await axios.patch(
         `http://localhost:5500/users/${selectedUser._id}`,
         userObj
       );
-     
-      dispatch(setEditModal(false))
     } catch (error) {
       console.error("Error:", error);
     }
+    dispatch(setEditModal(false));
+    dispatch(setFlag(!flag));
   };
   const deleteUser = async () => {
     try {
@@ -65,6 +66,8 @@ function Edit() {
     } catch (error) {
       console.error("Error:", error);
     }
+    dispatch(setEditModal(false));
+    dispatch(setFlag(!flag));
   }
 
   return (
@@ -204,7 +207,7 @@ function Edit() {
                     htmlFor="geolocation"
                     className="block my-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
-                    Geolocation*
+                    Geolocation
                   </label>
                   <input
                     ref={lat}
@@ -305,7 +308,7 @@ function Edit() {
                     htmlFor="description"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
-                    Description
+                    Description*
                   </label>
                   <textarea
                     ref={description}
@@ -337,7 +340,7 @@ function Edit() {
                 Save Profile
               </button>
               <button
-                type="submit"
+                type="button"
                 onClick={deleteUser}
                 className="text-white inline-flex items-center bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
               >
