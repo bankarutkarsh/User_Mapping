@@ -53,6 +53,7 @@ function Adduser() {
     if(userObj.address.city === '' || userObj.address.street === '' || userObj.address.building === '' || userObj.address.zipcode === '' || userObj.name.firstname === '' || userObj.name.lastname === '' || userObj.username === '' || userObj.email === '' || userObj.phone === '' || userObj.photo === '' || userObj.description === ''  ){
       setMessage(true);
     }
+    else{
     try {
       await axios.post("https://users-data-bynry.vercel.app/newUser", userObj);
       setMessage(false);
@@ -61,6 +62,7 @@ function Adduser() {
     }
     dispatch(setAddUserModal(false));
     dispatch(setFlag(!flag));
+    }
   };
 
   return (
