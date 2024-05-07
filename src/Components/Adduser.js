@@ -54,7 +54,7 @@ function Adduser() {
       setMessage(true);
     }
     try {
-      await axios.post("http://localhost:5500/newUser", userObj);
+      await axios.post("https://users-data-bynry.vercel.app/newUser", userObj);
       setMessage(false);
     } catch (error) {
       console.error("Error:", error);

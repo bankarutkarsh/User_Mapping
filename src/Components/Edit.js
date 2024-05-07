@@ -51,7 +51,7 @@ function Edit() {
     };
     try {
       await axios.patch(
-        `http://localhost:5500/users/${selectedUser._id}`,
+        `https://users-data-bynry.vercel.app/users/${selectedUser._id}`,
         userObj
       );
     } catch (error) {
@@ -62,7 +62,7 @@ function Edit() {
   };
   const deleteUser = async () => {
     try {
-      await axios.delete(`http://localhost:5500/delete/${selectedUser._id}`);
+      await axios.delete(`https://users-data-bynry.vercel.app/delete/${selectedUser._id}`);
     } catch (error) {
       console.error("Error:", error);
     }
