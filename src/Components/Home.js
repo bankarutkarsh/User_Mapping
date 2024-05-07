@@ -13,7 +13,7 @@ function Home() {
   useEffect(() => {
     async function fetchUser() {
       let response = await axios.get(
-        "http://localhost:5500/users");
+        "https://users-data-bynry.vercel.app/users");
       dispatch(setUsers(response.data.users));
     };
     fetchUser();
