@@ -10,7 +10,8 @@ const UserSlice = createSlice({
     addUserModal: false,
     detailsModal:false,
     editModal: false,
-    selectedUser:[]
+    selectedUser:[],
+    flag: false
   },
   reducers: {
     setDetailsModal(state, action){
@@ -37,9 +38,12 @@ const UserSlice = createSlice({
     setAddUserModal(state,action){
       state.addUserModal = action.payload;
     },
+    setFlag(state,action){
+      state.flag = action.payload;
+    },
   },
 });
 
 export default UserSlice;
 
-export const { setModal, setUsers, setUser, setAddUserModal, setDetailsModal, setEditModal, setMembers, setSelectedUser } = UserSlice.actions;
+export const { setModal, setUsers, setUser, setFlag , setAddUserModal, setDetailsModal, setEditModal, setMembers, setSelectedUser } = UserSlice.actions;

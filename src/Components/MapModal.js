@@ -2,7 +2,8 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setModal } from "../redux/user.slice";
 import { useLoadScript } from "@react-google-maps/api";
-import { Box, CircularProgress } from "@mui/material";
+import Loading from "./Loading";
+import "tailwindcss/tailwind.css";
 
 const MapModal = () => {
   let dispatch = useDispatch();
@@ -32,56 +33,51 @@ const MapModal = () => {
   //   );
   // }
 
+  if (isLoaded) {
+    return (
+      <div className="modal">
+        <div
+          className="modal-background"
+          onClick={() => dispatch(setModal(false))}
+        ></div>
+        <div className="modal-content map">
+          <iframe
+            title="map"
+            src={`https://www.google.com/maps/embed/v1/place?key=${googleMapsApiKey}&q=${n},${s},${c}`}
+            allowFullScreen
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+          ></iframe>
+          {/* (
+            <GoogleMap
+              mapContainerClassName="map-container"
+              center={center}
+              zoom={10}
+            >
+              <Marker position={{ lat: user.address.geolocation.lat, lng: user.address.geolocation.long }}
+                      name = {`${user.number}, ${user.street}, ${user.city}, ${user.zipcode}`}
+              />
+            </GoogleMap>
+          )} */}
+        </div>
+        <button
+          className="modal-close is-large"
+          aria-label="close"
+          onClick={() => dispatch(setModal(false))}
+        ></button>
+      </div>
+    );
+  }
   return (
     <div className="modal">
-      {isLoaded ? (
-        <>
-          <div
-            className="modal-background"
-            onClick={() => dispatch(setModal(false))}
-          ></div>
-          <div className="modal-content map">
-            <iframe
-            title="map"
-              src={`https://www.google.com/maps/embed/v1/place?key=${googleMapsApiKey}&q=${n},${s},${c}`}
-              allowFullScreen
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-            ></iframe>
-            {/* (
-          <GoogleMap
-            mapContainerClassName="map-container"
-            center={center}
-            zoom={10}
-          >
-            <Marker position={{ lat: user.address.geolocation.lat, lng: user.address.geolocation.long }}
-                    name = {`${user.number}, ${user.street}, ${user.city}, ${user.zipcode}`}
-            />
-          </GoogleMap>
-        )} */}
-          </div>
-          <button
-            className="modal-close is-large"
-            aria-label="close"
-            onClick={() => dispatch(setModal(false))}
-          ></button>
-        </>
-      ) : (
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <Box>
-            <CircularProgress />
-          </Box>
-        </div>
-      )}
+      <div
+        className="modal-background"
+        onClick={() => dispatch(setModal(false))}
+      ></div>
+      <Loading />
     </div>
   );
+ 
 };
 
 export default MapModal;
-

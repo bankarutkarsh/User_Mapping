@@ -8,7 +8,7 @@ import Admin from "./Admin";
 
 function Home() {
   let dispatch = useDispatch();
-  let { users, members } = useSelector((state) => state.userApp);
+  let { members, flag } = useSelector((state) => state.userApp);
 
   useEffect(() => {
     async function fetchUser() {
@@ -17,7 +17,8 @@ function Home() {
       dispatch(setUsers(response.data.users));
     };
     fetchUser();
-  }, [dispatch]);
+    console.log('render')
+  }, [flag]);
 
   return (  
     <div id="app">
