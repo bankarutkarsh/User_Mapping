@@ -202,7 +202,7 @@ function Adduser() {
                     htmlFor="geolocation"
                     className="block my-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
-                    Geolocation*
+                    Geolocation
                   </label>
                   <input
                     ref={lat}
@@ -303,7 +303,7 @@ function Adduser() {
                     htmlFor="description"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
-                    Description
+                    Description*
                   </label>
                   <textarea
                     ref={description}
