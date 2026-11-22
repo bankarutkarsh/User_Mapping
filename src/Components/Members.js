@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import MapModal from "./MapModal";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -10,13 +10,14 @@ import {
 import Details from "./Details";
 import { useLoadScript } from "@react-google-maps/api";
 import Loading from "./Loading";
+import useDebounce from "../hooks/useDebounce";
 
 function Members() {
   let dispatch = useDispatch();
   let { modal, detailsModal, users } = useSelector((state) => state.userApp);
   let [input, setInput] = useState("");
-  // const [debouncedValue] = useDebounce(input,500)
-  let [search, setSearch] = useState(false);
+
+  const debouncedQuery = useDebounce(input.trim().toLowerCase(), 300);
 
   function chunkArray(array, chunkSize) {
     const chunkedArray = [];
@@ -26,39 +27,30 @@ function Members() {
     return chunkedArray;
   }
 
-  const usersInSequence = chunkArray(users, 3);
-
-  let [matchUsers, setMatchUsers] = useState([...usersInSequence]);
-  // useEffect(()=>{
-  //   setMatchUsers(usersInSequence);
-  // },[]);
-
   let handleChange = (event) => {
-    setSearch(true);
     setInput(event.target.value);
-
-    if (event.target.value === "") {
-      setSearch(false);
-    } else {
-      let search = users.filter(
-        (user) =>
-          user.address.city.toLowerCase().includes(input.toLowerCase()) ||
-          user.title.toLowerCase().includes(input.toLowerCase()) ||
-          user.name.firstname.toLowerCase().includes(input.toLowerCase()) ||
-          user.name.lastname.toLowerCase().includes(input.toLowerCase())
-      );
-      setMatchUsers(chunkArray(search, 3));
-    }
   };
+
+  const chunkedArray = useMemo(() => {
+      const filteredArray = debouncedQuery
+        ? users.filter((user) =>
+            [
+              user.name?.firstname,
+              user.name?.lastname,
+              user.title,
+              user.address?.city,
+            ].some((field) => field?.toLowerCase().includes(debouncedQuery)),
+          )
+        : users;
+        return chunkArray(filteredArray, 3)
+    }, [users, debouncedQuery]);
 
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_API_KEY,
   });
 
   if (!isLoaded || users.length === 0) {
-    return (
-      <Loading />
-    );
+    return <Loading />;
   }
 
   return (
@@ -95,14 +87,11 @@ function Members() {
             </div>
           </div>
           <div className="cardscon">
-            {(search ? matchUsers : usersInSequence).map((row, index) => (
+            {(chunkedArray).map((row, index) => (
               <div className="row" key={index}>
                 <div className="columns changeRow">
                   {row.map((user) => (
-                    <div
-                      className="column one-third"
-                      key={user.id}
-                    >
+                    <div className="column one-third" key={user.id}>
                       <div className="card">
                         <div className="card-content">
                           <div className="media">
